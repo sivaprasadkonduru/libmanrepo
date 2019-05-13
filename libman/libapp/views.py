@@ -5,10 +5,11 @@ from datetime import datetime
 #third-party imports
 import xlrd
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 #project-specific imports
 from .models import Book
+from .forms import BookForm
 
 
 def create_books(request):
@@ -32,3 +33,27 @@ def create_books(request):
         return HttpResponse("Book details were added Successfully.")
     else:
         raise AttributeError("File path doesn't exist")
+
+
+def add_book(request):
+
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            raise form.ValidationErrors('Enter valid data.')
+
+        return HttpResponseRedirect('/book/all_books/')
+
+    else:
+        form = BookForm()
+
+    return render(request, 'book_form.html', {'book_form': form})
+
+
+def get_books(request):
+
+    data = Book.objects.all().order_by('-edition', 'reviews')
+    return render(request, 'get_books.html', {'book_data': data})
+

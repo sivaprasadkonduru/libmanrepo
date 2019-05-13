@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Books</title>
+</head>
+<body>
+    <h1 align="center"> Welcome to Library Management </h1>
+
+    <table border="2px solid black" align="center">
+
+        <th>ID</th>
+        <th>Name</th>
+        <th>Author</th>
+        <th>Edition</th>
+        <th>Category</th>
+        <th>Publisher</th>
+        <th>Reviews</th>
+        <th>Available</th>
+        <th>Issued Date</th>
+        <th>Return Date</th>
+
+        {% for val in  book_data%}
+            <tr>
+                <td>{{val.id}}</td>
+                <td>{{val.name}}</td>
+                <td>{{val.author}}</td>
+                <td>{{val.edition}}</td>
+                <td>{{val.category}}</td>
+                <td>{{val.publisher}}</td>
+                <td>{{val.reviews}}</td>
+                <td>{{val.available}}</td>
+                <td>{{val.issued_date}}</td>
+                <td>{{val.return_date}}</td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+</body>
+</html>
