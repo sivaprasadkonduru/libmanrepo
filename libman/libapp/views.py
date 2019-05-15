@@ -4,8 +4,10 @@ from datetime import datetime
 
 #third-party imports
 import xlrd
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
+from django.views.generic.list import ListView
+from django.views.generic.edit import FormView
 
 #project-specific imports
 from .models import Book
@@ -56,4 +58,31 @@ def get_books(request):
 
     data = Book.objects.all().order_by('-edition', 'reviews')
     return render(request, 'get_books.html', {'book_data': data})
+
+
+class BookView(ListView):
+
+    model = Book
+    queryset = Book.objects.all()
+    template_name = 'get_books.html'
+    #context_object_name = 'books_data'
+
+
+class BookFormView(FormView):
+
+    form_class = BookForm
+    success_url = '/book/list_books'
+    template_name = 'book_form.html'
+
+    def form_valid(self, form):
+        form.save()
+        return redirect(self.success_url)
+
+
+
+
+
+
+
+
 
