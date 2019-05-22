@@ -8,6 +8,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView
+from django.views.decorators.cache import cache_page
 
 #project-specific imports
 from .models import Book
@@ -54,8 +55,8 @@ def add_book(request):
     return render(request, 'book_form.html', {'book_form': form})
 
 
+@cache_page(3*60)
 def get_books(request):
-
     data = Book.objects.all().order_by('-edition', 'reviews')
     return render(request, 'get_books.html', {'book_data': data})
 
